@@ -1,0 +1,37 @@
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+SAMPLE_RATE = 44000
+
+#cria funçao
+dt = 0.01
+
+t = np.arange(0, 10, dt)
+
+data = 0.1*np.sin(2*np.pi*t)
+#magnitude = np.abs(np.fft.fft(data))
+
+
+nse = np.random.randn(len(t))
+r = np.exp(-t/0.05)
+cnse = np.convolve(nse, r)*dt
+cnse = cnse[:len(t)]
+
+data2 = 0.1*np.sin(2*np.pi*t) + cnse
+data3 = nse
+
+
+#plota
+
+timeGraph=plt.subplot(211)
+timeGraph.set_xlabel('time [s]')
+timeGraph.set_ylabel('sample value [-]')
+timeGraph.plot(t, data)
+
+
+plt.subplot(212)
+plt.magnitude_spectrum(data, 1/dt)
+
+plt.show()
